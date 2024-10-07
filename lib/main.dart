@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:testing_project/pages/ExpansionTittle.dart';
 import 'package:testing_project/pages/animatedText.dart';
 import 'package:testing_project/pages/appBarGradiasi.dart';
 import 'package:testing_project/pages/bodyGradiasi.dart';
@@ -7,6 +8,8 @@ import 'package:testing_project/pages/pageViewBuilder.dart';
 import 'package:testing_project/pages/searchMenu.dart';
 import 'package:testing_project/pages/sigitaExecute.dart';
 import 'package:testing_project/pages/splashScreen.dart';
+import 'package:testing_project/pages/sigitaExecuteDrawer.dart';
+import 'package:testing_project/pages/drawExecute.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,7 +27,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Animatedtext()
+      home: Drawexecute(),
     );
   }
 }
