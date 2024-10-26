@@ -15,8 +15,9 @@ import 'package:testing_project/pages/sigitaExecute.dart';
 import 'package:testing_project/pages/splashScreen.dart';
 import 'package:testing_project/pages/sigitaExecuteDrawer.dart';
 import 'package:testing_project/pages/drawExecute.dart';
+import 'package:testing_project/pages/update_sigita/update.dart';
 
-void main() {
+void main() async{
   runApp(const MyApp());
 }
 
@@ -32,7 +33,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: OverlappingContainers()
+      home: UpdateUserPage(),
     );
   }
 }
