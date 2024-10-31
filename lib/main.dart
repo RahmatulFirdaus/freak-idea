@@ -5,6 +5,7 @@ import 'package:testing_project/pages/appBarGradiasi.dart';
 import 'package:testing_project/pages/bodyGradiasi.dart';
 import 'package:testing_project/pages/formShowDialog.dart';
 import 'package:testing_project/pages/gradiantNavBody.dart';
+import 'package:testing_project/pages/kalender/post_date.dart';
 import 'package:testing_project/pages/pageViewBuilder.dart';
 import 'package:testing_project/pages/reqresListExecute.dart';
 import 'package:testing_project/pages/searchMenu.dart';
@@ -34,7 +35,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: UploadFilePage(),
+      home: PostDate(),
     );
   }
 }
