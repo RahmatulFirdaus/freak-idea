@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:http/http.dart' as http;
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
 
 class UploadFilePage extends StatefulWidget {
   @override
@@ -9,67 +10,57 @@ class UploadFilePage extends StatefulWidget {
 }
 
 class _UploadFilePageState extends State<UploadFilePage> {
-  File? _selectedFile;
-  
-  // Fungsi untuk memilih file dari file manager
+  File? _file;
+
   Future<void> _pickFile() async {
-    final result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
       setState(() {
-        _selectedFile = File(result.files.single.path!);
+        _file = File(result.files.single.path!);
       });
-    } else {
-      print('No file selected.');
     }
   }
 
-  // Fungsi untuk upload file ke server
   Future<void> _uploadFile() async {
-    if (_selectedFile == null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Please select a file first'),
-      ));
-      return;
-    }
+    if (_file == null) return;
 
-    try {
-      final uri = Uri.parse('http://192.168.1.5:3000/api/uploadFileBukanSigita'); // Ganti URL sesuai dengan alamat server Anda
-      var request = http.MultipartRequest('POST', uri);
-      request.files.add(await http.MultipartFile.fromPath('file', _selectedFile!.path));
+    var uri = Uri.parse("http://10.0.10.58:3000/api/uploadFileAdmin");
+    var request = http.MultipartRequest('POST', uri);
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        'file',
+        _file!.path,
+        filename: basename(_file!.path),
+      ),
+    );
 
-      var response = await request.send();
-      if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('File uploaded successfully!'),
-        ));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('File upload failed! Status code: ${response.statusCode}'),
-        ));
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Error: $e'),
-      ));
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      print("File uploaded successfully!");
+    } else {
+      print("Failed to upload file.");
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Upload File')),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
+      appBar: AppBar(
+        title: Text('Upload File'),
+      ),
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (_selectedFile != null)
-              Text('Selected File: ${_selectedFile!.path.split('/').last}'),
+            _file != null
+                ? Text('Selected File: ${basename(_file!.path)}')
+                : Text('No file selected'),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _pickFile,
-              child: Text('Choose File'),
+              child: Text('Pick File'),
             ),
             SizedBox(height: 20),
             ElevatedButton(
